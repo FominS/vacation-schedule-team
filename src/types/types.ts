@@ -1,3 +1,4 @@
+export enum ScaleTypes {'months' = 0, 'days' = 1}
 
 export class Period {
     start: string;
@@ -17,10 +18,10 @@ export class Shedule {
     periods: Array<Period>;
     position: string;
     employes: Array<Shedule>;
-    head: boolean; 
+    leader: boolean; 
     
     constructor (id: string, firstname: string, surname: string, middlename: string,
-        periods: Array<Period>, position: string, employes: Array<Shedule>, head: boolean ){
+        periods: Array<Period>, position: string, employes: Array<Shedule>, leader: boolean ){
         this.id = id
         this.firstname = firstname
         this.surname = surname
@@ -28,7 +29,7 @@ export class Shedule {
         this.periods = periods
         this.position = position
         this.employes = employes
-        this.head = head
+        this.leader = leader
     }
 }
 

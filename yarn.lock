@@ -3611,6 +3611,11 @@ detect-node@^2.0.4:
   resolved "https://registry.yarnpkg.com/detect-node/-/detect-node-2.0.4.tgz#014ee8f8f669c5c58023da64b8179c083a28c46c"
   integrity sha512-ZIzRpLJrOj7jjP2miAtgqIfmzbxa4ZOr5jJc601zklsfEx9oTzmmj2nVpIPRpNlRTIh8lc1kyViIY7BWSGNmKw==
 
+dhtmlx-gantt@^7.0.0:
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/dhtmlx-gantt/-/dhtmlx-gantt-7.0.0.tgz#06693cc669dd81721031c44d92aa8437ed1c2945"
+  integrity sha512-jJL0KmXf0nVdBR7cNor1f5kqBf0w63Hsq26Dzz3GMLhR10e3i+IsK2KAaNhnzLfrcRWZc1F4cOLodd1CQ+o1AQ==
+
 diff-sequences@^24.9.0:
   version "24.9.0"
   resolved "https://registry.yarnpkg.com/diff-sequences/-/diff-sequences-24.9.0.tgz#5715d6244e2aa65f48bba0bc972db0b0b11e95b5"
