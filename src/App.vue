@@ -38,13 +38,13 @@
     </v-app-bar>
 
     <v-content>
-      <UnitVacationShedule v-model="shedule"/>
+      <VacationSheduleTeam v-model="shedule"/>
     </v-content>
   </v-app>
 </template>
 
 <script lang="ts">
-import UnitVacationShedule from './components/UnitVacationShedule.vue';
+import VacationSheduleTeam from './components/VacationSheduleTeam';
 import fake from "./types/fake";
 import Vue from 'vue';
 
@@ -52,7 +52,7 @@ export default Vue.extend({
   name: 'App',
 
   components: {
-    UnitVacationShedule,
+    VacationSheduleTeam,
   },
 
   data: () => ({

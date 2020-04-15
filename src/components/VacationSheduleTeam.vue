@@ -142,7 +142,7 @@ const declOfNum = (num: number, titles: Array<string>) => {
     Scale
   }
 })
-export default class UnitVacationShedule extends Vue {
+export default class VacationSheduleTeam extends Vue {
   @Prop({ default: [], required: true }) readonly value!: Array<Shedule>;
 
   private scaleType: string = ScaleTypes[0];
