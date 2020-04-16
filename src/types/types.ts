@@ -20,7 +20,7 @@ export class Schedule {
     employes: Array<Schedule>;
     leader: boolean; 
     
-    constructor (id: string, firstname: string, surname: string, middlename: string,
+    constructor (id: string, surname: string, firstname: string,  middlename: string,
         periods: Array<Period>, position: string, employes: Array<Schedule>, leader: boolean ){
         this.id = id
         this.firstname = firstname
