@@ -10,18 +10,18 @@ export class Period {
     }
 }
 
-export class Shedule {
+export class Schedule {
     id: string;
     firstname: string;
     surname: string;
     middlename: string;
     periods: Array<Period>;
     position: string;
-    employes: Array<Shedule>;
+    employes: Array<Schedule>;
     leader: boolean; 
     
     constructor (id: string, firstname: string, surname: string, middlename: string,
-        periods: Array<Period>, position: string, employes: Array<Shedule>, leader: boolean ){
+        periods: Array<Period>, position: string, employes: Array<Schedule>, leader: boolean ){
         this.id = id
         this.firstname = firstname
         this.surname = surname

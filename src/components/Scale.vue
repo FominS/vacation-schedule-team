@@ -1,17 +1,17 @@
 <template>
   <div>
-    <v-row v-if="value == scaleType[0]" align="center" class="flex-nowrap">
-      <div class="go-unit-scale go-unit-scale-tree"></div>
+    <div v-if="value == scaleType[0]" align="center" class="schedule-team-row flex-nowrap">
+      <div class="schedule-team-scale schedule-team-scale-tree"></div>
       <div
-        class="go-unit-scale go-unit-scale-month text-md-center white--text pa-3"
+        class="schedule-team-scale schedule-team-scale-month text-md-center white--text pa-3"
         v-for="month in months"
         :key="month"
       >
         {{ month }}
       </div>
-    </v-row>
-    <v-row v-else class="flex-nowrap" align="center">
-      <div class="go-unit-scale go-unit-scale-tree pa-1">
+    </div>
+    <div v-else class="schedule-team-row flex-nowrap" align="center">
+      <div class="schedule-team-scale schedule-team-scale-tree pa-1">
         <v-btn icon dark :disabled="monthIndex < 1" @click="decrease"
           ><v-icon>mdi-chevron-left</v-icon></v-btn
         >
@@ -21,17 +21,17 @@
         >
       </div>
       <div
-        class="go-unit-scale go-unit-scale-day text-md-center white--text py-3"
+        class="schedule-team-scale schedule-team-scale-day text-md-center white--text py-3"
         v-for="n in countDays"
         :key="n"
       >
         {{ n }}
       </div>
-    </v-row>
+    </div>
   </div>
 </template>
 <script lang="ts">
-import { Component, Prop, Emit, Vue } from "vue-property-decorator";
+import { Component, Prop, Vue } from "vue-property-decorator";
 import moment from "moment";
 import "moment/locale/ru";
 import { ScaleTypes } from "../types/types";
@@ -52,7 +52,7 @@ const Months: Array<string> = [
 ];
 
 @Component
-export default class UnitVacationShedule extends Vue {
+export default class Scale extends Vue {
   @Prop({ default: ScaleTypes[0], required: true }) readonly value!: ScaleTypes;
   @Prop({ default: new Date(2020, 3) }) readonly month!: Date;
   private scaleType: unknown = ScaleTypes;
@@ -80,22 +80,27 @@ export default class UnitVacationShedule extends Vue {
 </script>
 
 <style scoped>
-.go-unit-scale {
+.schedule-team-scale {
   background-color: #0088b2;
   height: 45px;
   border-left: 1px solid lightgray;
 }
-.go-unit-scale-month {
+.schedule-team-scale-month {
   width: 85px;
 }
-.go-unit-scale-day {
+.schedule-team-scale-day {
   width: 30px;
 }
-.go-unit-scale-tree {
+.schedule-team-scale-tree {
   width: 350px;
   align-items: center;
   display: flex;
   justify-content: space-between;
   position: relative;
+}
+.schedule-team-row{
+  display: flex;
+  flex-wrap: wrap;
+  flex: 1 1 auto;
 }
 </style>

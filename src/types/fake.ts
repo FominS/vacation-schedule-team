@@ -1,22 +1,92 @@
-import { Shedule, Period } from "./types";
+import { Schedule, Period } from "./types";
 import { v1 as uuid } from "uuid";
 
-const shedule = [];
-for (let i = 0; i < 7; i++) {
-  const period = new Period("2020-02-0" + (i + 1), "2020-02-2" + (i + 1));
-  const element = new Shedule(
+const schedule = [
+  new Schedule(
     uuid(),
-    "Иван " + i,
-    "Иванов",
-    "Иванович",
-    [period],
-    i == 0 ? "Самый лучший начальник" : "эксперт высшей категории #" + i,
-    i > 0 ? [new Shedule(uuid(), 'SDSD', 'DFDF', 'DFDF', [period], 'dfdfdf', [], false)] : [],
-    i == 0 ? true : false
-  );
-  shedule.push(element);
-}
+    "Фокин",
+    "Александр",
+    "Николаевич",
+    [new Period("2020-02-02", "2020-02-22")],
+    "Начальник отдела ОРПР РЦР Рязань",
+    [],
+    true
+  ),
+  new Schedule(
+    uuid(),
+    "Чернышев",
+    "Антон",
+    "Сергеевич",
+    [new Period("2020-03-02", "2020-03-22")],
+    "Зам начальника отдела ОРПР РЦР Рязань",
+    [],
+    false
+  ),
+  new Schedule(
+    uuid(),
+    "Овсянкин",
+    "Геннадий",
+    "Николаевич",
+    [new Period("2020-04-02", "2020-04-22")],
+    "Зам начальника отдела ОРПР РЦР Рязань",
+    [],
+    false
+  ),
+  new Schedule(
+    uuid(),
+    "Рогов",
+    "Дмитрий",
+    "Игоревич",
+    [new Period("2020-04-02", "2020-04-22")],
+    "Главный эксперт отдела ОРПР РЦР Рязань",
+    [
+      new Schedule(
+        uuid(),
+        "Фомин",
+        "Сергей",
+        "Николаевич",
+        [new Period("2020-04-02", "2020-04-22")],
+        "Ведущий эксперт отдела ОРПР РЦР Рязань",
+        [
+          new Schedule(
+            uuid(),
+            "Мандельштамп",
+            "Осип",
+            "Эмильевич",
+            [new Period("2020-04-02", "2020-04-22")],
+            "Воображаемый друг и русские поэт",
+            [],
+            false
+          ),
+        ],
+        false
+      ),
+      new Schedule(
+        uuid(),
+        "Терехов",
+        "Константин",
+        "",
+        [new Period("2020-04-02", "2020-04-22")],
+        "Ведущий эксперт отдела ОРПР РЦР Рязань",
+        [],
+        false
+      ),
+      new Schedule(
+        uuid(),
+        "Сергеев",
+        "Андрей",
+        "Анатольевич",
+        [new Period("2020-04-02", "2020-04-22")],
+        "Рядовой эксперт  пап ап ап апотдела ОРПР РЦР Рязань",
+        [],
+        false
+      ),
+    ],
+    false
+  ),
+];
+
 
 export default {
-  shedule: shedule,
+  schedule: schedule,
 };
