@@ -19,6 +19,7 @@ export class Schedule {
     position: string;
     employes: Array<Schedule>;
     leader: boolean; 
+    isOpen: boolean = true;
     
     constructor (id: string, surname: string, firstname: string,  middlename: string,
         periods: Array<Period>, position: string, employes: Array<Schedule>, leader: boolean ){

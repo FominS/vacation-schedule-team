@@ -83,13 +83,14 @@ export default class Scale extends Vue {
 .schedule-team-scale {
   background-color: #0088b2;
   height: 45px;
-  border-left: 1px solid lightgray;
 }
 .schedule-team-scale-month {
   width: 85px;
+  border-left: 1px solid lightgray;
 }
 .schedule-team-scale-day {
   width: 30px;
+  border-left: 1px solid lightgray;
 }
 .schedule-team-scale-tree {
   width: 350px;

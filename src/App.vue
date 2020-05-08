@@ -44,7 +44,7 @@
 </template>
 
 <script lang="ts">
-import VacationScheduleTeam from './components/VacationScheduleTeam';
+import VacationScheduleTeam from './components/VacationScheduleTeam.vue';
 import fake from "./types/fake";
 import Vue from 'vue';
 

@@ -1,6 +1,6 @@
 <template>
   <div class="schedule-team-container pt-3 px-3">
-    <div class="schedule-team-row pl-2">
+    <div class="schedule-team-row ml-2">
         <Scale v-model="scaleType"
         :month="month"
         @next-month="nextMonth"
@@ -19,9 +19,20 @@
             :employes="item.employes"
             :leader="item.leader"
             :level=0
+            :showChild="item.isOpen"
+            @toggle-child="item.isOpen = !item.isOpen"
           />
         </div>
       </div>
+      <div class="schedule-team-grid">
+          <grid
+            v-for="item in value" :key="item.id"
+            :scale="scaleType"
+            :month="month"
+            :employes="item.employes"
+            :showChild="item.isOpen"></grid>
+      </div>
+
     </div>
     <!-- test -->
     <v-row>
@@ -43,8 +54,9 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 import moment from "moment";
 import "moment/locale/ru";
 import { Schedule, ScaleTypes } from "../types/types";
-import Scale from './Scale'
-import EmployeeItem from './EmployeeItem'
+import Scale from './Scale.vue'
+import Grid from './Grid.vue'
+import EmployeeItem from './EmployeeItem.vue'
 
 
 /**
@@ -63,11 +75,12 @@ const declOfNum = (num: number, titles: Array<string>) => {
 @Component({
   components: {
     Scale,
-    EmployeeItem
+    EmployeeItem,
+    Grid
   }
 })
 export default class VacationScheduleTeam extends Vue {
-  @Prop({ default: [], required: true }) readonly value!: Array<Shedule>;
+  @Prop({ default: [], required: true }) readonly value!: Array<Schedule>;
 
   private scaleType: string = ScaleTypes[0];
   scales: Array<string> = ['months', 'days'];
@@ -89,6 +102,7 @@ export default class VacationScheduleTeam extends Vue {
      this.monthIndex--;
   }
 
+
 }
 </script>
 <style scoped>
@@ -103,8 +117,8 @@ export default class VacationScheduleTeam extends Vue {
   width: 350px;  
 }
 .schedule-team-body{
-  width: 100%;
-  height: 300px;
+  /* width: 100%; */
+  /* height: 300px; */
   overflow-y: auto;
   background-color: white;
   border-top: 1px solid lightgray;
@@ -115,6 +129,7 @@ export default class VacationScheduleTeam extends Vue {
   flex-wrap: wrap;
   flex: 1 1 auto;
 }
+
 
 .v-input--selection-controls {
   margin-top: 0px;

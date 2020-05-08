@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Vuetify from 'vuetify/lib';
-import ru from "vuetify/src/locale/ru.ts";
+import ru from "vuetify/src/locale/ru";
 
 Vue.use(Vuetify);
 
