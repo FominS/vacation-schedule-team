@@ -14,15 +14,15 @@
           transition="scale-transition"
           width="40"
         />
-        <span class="orange--text">TEXT</span>
-        <!-- <v-img
+        <!-- <span class="orange--text">TEXT</span> -->
+        <v-img
           alt="Vuetify Name"
           class="shrink mt-1 hidden-sm-and-down"
           contain
           min-width="100"
           src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
           width="100"
-        /> -->
+        />
       </div>
 
       <v-spacer></v-spacer>
@@ -38,7 +38,7 @@
     </v-app-bar>
 
     <v-content>
-      <VacationScheduleTeam v-model="schedule"/>
+      <VacationScheduleTeam v-model="schedule" :year="year"/>
     </v-content>
   </v-app>
 </template>
@@ -55,7 +55,8 @@ export default Vue.extend({
   },
 
   data: () => ({
-    schedule: fake.schedule
+    schedule: fake.schedule,
+    year: fake.currentYear
   }),
 });
 </script>

@@ -1,27 +1,20 @@
 <template>
   <div>
     <div v-if="value == scaleType[0]" align="center" class="schedule-team-row flex-nowrap">
-      <div class="schedule-team-scale schedule-team-scale-tree"></div>
+      <!--  -->
       <div
-        class="schedule-team-scale schedule-team-scale-month text-md-center white--text pa-3"
+        class="schedule-team-scale schedule-team-scale-month text-md-center white--text pa-3 subtitle-2"
+        :style="{minWidth: month.width}"
         v-for="month in months"
-        :key="month"
+        :key="month.index"
       >
-        {{ month }}
+        {{ month.name }}
       </div>
     </div>
     <div v-else class="schedule-team-row flex-nowrap" align="center">
-      <div class="schedule-team-scale schedule-team-scale-tree pa-1">
-        <v-btn icon dark :disabled="monthIndex < 1" @click="decrease"
-          ><v-icon>mdi-chevron-left</v-icon></v-btn
-        >
-        <span class="white--text text-center">{{ monthName }}</span>
-        <v-btn icon dark :disabled="monthIndex > 10" @click="increase"
-          ><v-icon>mdi-chevron-right</v-icon></v-btn
-        >
-      </div>
+      <!-- -->
       <div
-        class="schedule-team-scale schedule-team-scale-day text-md-center white--text py-3"
+        class="schedule-team-scale schedule-team-scale-day text-md-center white--text py-3 subtitle-2"
         v-for="n in countDays"
         :key="n"
       >
@@ -32,50 +25,30 @@
 </template>
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
-import moment from "moment";
-import "moment/locale/ru";
-import { ScaleTypes } from "../types/types";
-
-const Months: Array<string> = [
-  "январь",
-  "февраль",
-  "март",
-  "апрель",
-  "май",
-  "июнь",
-  "июль",
-  "август",
-  "сентябрь",
-  "октябрь",
-  "ноябрь",
-  "декабрь"
-];
+import { ScaleTypes, Month } from "../types/types";
 
 @Component
 export default class Scale extends Vue {
   @Prop({ default: ScaleTypes[0], required: true }) readonly value!: ScaleTypes;
+  @Prop({ required: true }) readonly year!: number;
   @Prop({ default: new Date(2020, 3) }) readonly month!: Date;
+  
+  /* data */
   private scaleType: unknown = ScaleTypes;
-  private months: Array<string> = Months;
+  private months: Array<Month> = [];
+
+  created() {
+    for (let i = 0; i < 12; i++) {
+      this.months.push(new Month(this.year, i));    
+    }
+  }
 
   /* computed */
   get countDays(): number {
-    return moment(this.month).daysInMonth();
-  }
-  get monthName(): string {
-    return moment(this.month).format("MMMM");
-  }
-  get monthIndex(): number {
-    return this.month.getMonth();
+    return this.months[this.month.getMonth()].days;
   }
 
-  /* methods */
-  public increase(): void {
-    this.$emit("next-month");
-  }
-  public decrease(): void {
-    this.$emit("previous-month");
-  }
+  
 }
 </script>
 
@@ -83,22 +56,18 @@ export default class Scale extends Vue {
 .schedule-team-scale {
   background-color: #0088b2;
   height: 45px;
+  border-bottom: 1px solid lightgray;
 }
 .schedule-team-scale-month {
-  width: 85px;
+  /* width: 85px;
+  min-width: 85px; */
   border-left: 1px solid lightgray;
 }
 .schedule-team-scale-day {
   width: 30px;
   border-left: 1px solid lightgray;
 }
-.schedule-team-scale-tree {
-  width: 350px;
-  align-items: center;
-  display: flex;
-  justify-content: space-between;
-  position: relative;
-}
+
 .schedule-team-row{
   display: flex;
   flex-wrap: wrap;

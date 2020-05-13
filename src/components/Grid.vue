@@ -3,8 +3,9 @@
     <div v-if="scale == scaleType[0]" class="schedule-grid-row">
       <div
         class="schedule-team-grid-col cell-month"
-        v-for="n in 12"
-        :key="n"
+        :style="{minWidth: month.width}"
+        v-for="month in months"
+        :key="month.index"
       ></div>
     </div>
     <div v-else class="schedule-grid-row">
@@ -22,13 +23,14 @@
         :month="month"
         :employes="item.employes"
         :showChild="item.isOpen"
+        :year="year"
         ></grid>
     </div>
   </div>
 </template>
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
-import { Schedule, ScaleTypes } from "../types/types";
+import { Schedule,  ScaleTypes, Month } from "../types/types";
 import moment from "moment";
 import "moment/locale/ru";
 
@@ -36,13 +38,21 @@ import "moment/locale/ru";
   name: "Grid",
 })
 export default class Grid extends Vue {
-  @Prop({ default: [] }) readonly employes!: Array<Schedule>;
+  @Prop({ default: [] }) readonly employes!: Schedule[];
   @Prop({ default: ScaleTypes[0], required: true }) readonly scale!: ScaleTypes;
   @Prop({ default: new Date(2020, 3) }) readonly month!: Date;
+  @Prop({ required: true }) readonly year!: number;
   @Prop({ default: true }) readonly showChild!: boolean;
 
   /* data */
   private scaleType: unknown = ScaleTypes;
+  private months: Array<Month> = [];
+
+  created() {
+    for (let i = 0; i < 12; i++) {
+      this.months.push(new Month(this.year, i));    
+    }
+  }
 
   /* computed */
   get countDays(): number {
@@ -55,6 +65,7 @@ export default class Grid extends Vue {
   height: 48px;
   border-bottom: 1px dashed lightgray;
   border-left: 1px solid lightgray;
+  background-color: white;
 }
 .schedule-team-grid-col.cell-month {
   width: 85px;
