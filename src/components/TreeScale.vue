@@ -51,6 +51,7 @@ export default class TreeScale extends Vue {
   background-color: #0088b2;
   height: 45px;
   border-bottom: 1px solid lightgray;
+  border-right: 1px solid lightgray;
 }
 .schedule-team-scale-tree {
   width: 300px;

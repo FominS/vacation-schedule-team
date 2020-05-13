@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="scale == scaleType[0]" class="schedule-grid-row">
+    <div v-if="scale == scaleType[0]" class="schedule-grid-row flex-nowrap">
       <div
         class="schedule-team-grid-col cell-month"
         :style="{minWidth: month.width}"
@@ -8,7 +8,7 @@
         :key="month.index"
       ></div>
     </div>
-    <div v-else class="schedule-grid-row">
+    <div v-else class="schedule-grid-row flex-nowrap">
       <div
         class="schedule-team-grid-col cell-day"
         v-for="n in countDays"
@@ -64,7 +64,7 @@ export default class Grid extends Vue {
 .schedule-team-grid-col {
   height: 48px;
   border-bottom: 1px dashed lightgray;
-  border-left: 1px solid lightgray;
+  border-right: 1px solid lightgray;
   background-color: white;
 }
 .schedule-team-grid-col.cell-month {

@@ -68,6 +68,7 @@ export default class EmployeeItem extends Vue {
 .schedule-team-employee {
   height: 48px;
   border-bottom: 1px dashed lightgray;
+  border-right: 1px solid lightgray;
   background-color: white;
 }
 </style>

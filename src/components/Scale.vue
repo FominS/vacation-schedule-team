@@ -1,7 +1,6 @@
 <template>
   <div>
     <div v-if="value == scaleType[0]" align="center" class="schedule-team-row flex-nowrap">
-      <!--  -->
       <div
         class="schedule-team-scale schedule-team-scale-month text-md-center white--text pa-3 subtitle-2"
         :style="{minWidth: month.width}"
@@ -12,7 +11,6 @@
       </div>
     </div>
     <div v-else class="schedule-team-row flex-nowrap" align="center">
-      <!-- -->
       <div
         class="schedule-team-scale schedule-team-scale-day text-md-center white--text py-3 subtitle-2"
         v-for="n in countDays"
@@ -56,16 +54,13 @@ export default class Scale extends Vue {
 .schedule-team-scale {
   background-color: #0088b2;
   height: 45px;
-  border-bottom: 1px solid lightgray;
+  border-bottom: 1px solid lightgray;  
+  border-right: 1px solid lightgray;
 }
 .schedule-team-scale-month {
-  /* width: 85px;
-  min-width: 85px; */
-  border-left: 1px solid lightgray;
 }
 .schedule-team-scale-day {
   width: 30px;
-  border-left: 1px solid lightgray;
 }
 
 .schedule-team-row{
