@@ -68,10 +68,10 @@ export default class Grid extends Vue {
   background-color: white;
 }
 .schedule-team-grid-col.cell-month {
-  width: 85px;
 }
 .schedule-team-grid-col.cell-day {
   width: 30px;
+  min-width: 30px;
 }
 
 .schedule-grid-row {

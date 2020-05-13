@@ -61,6 +61,7 @@ export default class Scale extends Vue {
 }
 .schedule-team-scale-day {
   width: 30px;
+  min-width: 30px;
 }
 
 .schedule-team-row{

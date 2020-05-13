@@ -59,7 +59,6 @@ export default class TreeScale extends Vue {
   align-items: center;
   display: flex;
   justify-content: space-between;
-  position: relative;
-  
+  position: relative;  
 }
 </style>
