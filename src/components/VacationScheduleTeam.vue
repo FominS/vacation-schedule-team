@@ -161,7 +161,7 @@ export default class VacationScheduleTeam extends Vue {
     const master: HTMLElement = this.$refs.master as HTMLElement;
     const component: HTMLElement = this.$el as HTMLElement;
     if (master && component) {
-      if (master.offsetHeight + 60 > component.offsetHeight) {
+      if (master.offsetHeight + 110 > component.offsetHeight) {
         this.containerHeight = component.offsetHeight + "px";
       } else {
         this.containerHeight = "auto";
