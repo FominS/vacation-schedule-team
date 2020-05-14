@@ -60,8 +60,9 @@ export default Vue.extend({
   }),
 });
 </script>
-<style scoped>
+<style>
 .v-application{
-    overflow-x: auto;
+    background: lightgray !important;
 }
+
 </style>

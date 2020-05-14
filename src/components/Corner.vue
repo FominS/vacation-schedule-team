@@ -22,7 +22,7 @@ import moment from "moment";
 import "moment/locale/ru";
 
 @Component
-export default class TreeScale extends Vue {
+export default class Corner extends Vue {
   @Prop({ default: ScaleTypes[0], required: true }) readonly value!: ScaleTypes;
   @Prop({ default: new Date(2020, 3) }) readonly month!: Date;
 
