@@ -24,7 +24,7 @@ const schedule: Schedule[] = [
       surname: "Чернышев",
       firstname: "Антон",
       middlename: "Сергеевич",
-      periods: [new Period("2020-02-02", "2020-02-22")],
+      periods: [new Period("2020-04-02", "2020-04-10"), new Period("2020-05-28", "2020-06-12"), new Period("2020-08-12", "2020-08-28")],
       position: "Зам начальника отдела ОРПР РЦР Рязань",
       leader: false
     } as ScheduleModel,
@@ -37,7 +37,7 @@ const schedule: Schedule[] = [
       surname: "Овсянкин",
       firstname: "Геннадий",
       middlename: "Николаевич",
-      periods: [new Period("2020-02-02", "2020-02-22")],
+      periods: [new Period("2020-05-12", "2020-05-15")],
       position: "Зам начальника отдела ОРПР РЦР Рязань",
       leader: false
     },
@@ -50,7 +50,7 @@ const schedule: Schedule[] = [
       surname: "Рогов",
       firstname: "Дмитрий",
       middlename: "Игоревич",
-      periods: [new Period("2020-02-02", "2020-02-22")],
+      periods: [new Period("2020-06-01", "2020-06-15"), new Period("2020-09-10", "2020-09-25")],
       position: "Главный эксперт отдела ОРПР РЦР Рязань",
       leader: false
     },

@@ -1,11 +1,16 @@
 <template>
   <div>
-    <div v-if="value == scaleType[0]" align="center" class="schedule-team-row flex-nowrap">
+    <div
+      v-if="value == scaleType[0]"
+      align="center"
+      class="schedule-team-row flex-nowrap"
+    >
       <div
         class="schedule-team-scale schedule-team-scale-month text-md-center white--text pa-3 subtitle-2"
-        :style="{minWidth: month.width}"
+        :style="{ minWidth: month.width }"
         v-for="month in months"
         :key="month.index"
+        v-on:click="selectMonth(month.index)"
       >
         {{ month.name }}
       </div>
@@ -27,17 +32,17 @@ import { ScaleTypes, Month } from "../types/types";
 
 @Component
 export default class Scale extends Vue {
-  @Prop({ default: ScaleTypes[0], required: true }) readonly value!: ScaleTypes;
+  @Prop({ default: ScaleTypes[0], required: true }) readonly value!: string;
   @Prop({ required: true }) readonly year!: number;
   @Prop({ default: new Date(2020, 3) }) readonly month!: Date;
-  
+
   /* data */
   private scaleType: unknown = ScaleTypes;
   private months: Array<Month> = [];
 
   created() {
     for (let i = 0; i < 12; i++) {
-      this.months.push(new Month(this.year, i));    
+      this.months.push(new Month(this.year, i));
     }
   }
 
@@ -46,7 +51,10 @@ export default class Scale extends Vue {
     return this.months[this.month.getMonth()].days;
   }
 
-  
+  /* metods */
+  public selectMonth(index: number): void {
+    this.$emit("change-month", index);
+  }
 }
 </script>
 
@@ -54,17 +62,21 @@ export default class Scale extends Vue {
 .schedule-team-scale {
   background-color: #0088b2;
   height: 45px;
-  border-bottom: 1px solid lightgray;  
+  border-bottom: 1px solid lightgray;
   border-right: 1px solid lightgray;
 }
 .schedule-team-scale-month {
+  cursor: pointer;
+}
+.schedule-team-scale-month:hover {
+  background-color: #00ACC1;
 }
 .schedule-team-scale-day {
   width: 30px;
   min-width: 30px;
 }
 
-.schedule-team-row{
+.schedule-team-row {
   display: flex;
   flex-wrap: wrap;
   flex: 1 1 auto;
