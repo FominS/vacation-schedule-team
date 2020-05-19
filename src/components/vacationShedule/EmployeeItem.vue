@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="schedule-team-employee">
+    <div class="employee">
       <v-list-item dense class="pa-1" :style="levelIdent">
         <v-list-item-icon class="mx-1">
           <v-icon color="orange darken-2" v-if="value.leader"
@@ -41,7 +41,7 @@
 </template>
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
-import { Schedule, ScheduleModel } from "../types/types";
+import { Schedule, ScheduleModel } from "../../types/types";
 
 @Component({
   name: "EmployeeItem",
@@ -65,10 +65,11 @@ export default class EmployeeItem extends Vue {
 </script>
 
 <style scoped>
-.schedule-team-employee {
+.employee {
   height: 48px;
   border-bottom: 1px dashed lightgray;
   border-right: 1px solid lightgray;
   background-color: white;
+  cursor: default;
 }
 </style>
