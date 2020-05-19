@@ -2,9 +2,9 @@
   <div>
     <div
       v-if="value == scaleType[0]"
-      class="schedule-team-scale schedule-team-scale-tree"
+      class="scale scale-tree"
     ></div>
-    <div v-else class="schedule-team-scale schedule-team-scale-tree pa-1">
+    <div v-else class="scale scale-tree pa-1">
       <v-btn icon dark :disabled="monthIndex < 1" @click="decrease"
         ><v-icon>mdi-chevron-left</v-icon></v-btn
       >
@@ -17,7 +17,7 @@
 </template>
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
-import { ScaleTypes } from "../types/types";
+import { ScaleTypes } from "../../types/types";
 import moment from "moment";
 import "moment/locale/ru";
 
@@ -47,13 +47,13 @@ export default class Corner extends Vue {
 }
 </script>
 <style scoped>
-.schedule-team-scale {
+.scale {
   background-color: #0088b2;
   height: 45px;
   border-bottom: 1px solid lightgray;
   border-right: 1px solid lightgray;
 }
-.schedule-team-scale-tree {
+.scale-tree {
   width: 300px;
   min-width: 300px;
   align-items: center;

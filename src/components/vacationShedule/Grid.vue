@@ -1,16 +1,16 @@
 <template>
   <div>
-    <div v-if="scale == scaleType[0]" class="schedule-grid-row flex-nowrap">
+    <div v-if="scale == scaleType[0]" class="grid-row flex-nowrap">
       <div
-        class="schedule-team-grid-col cell-month"
+        class="grid-col cell-month"
         :style="{minWidth: month.width}"
         v-for="month in months"
         :key="month.index"
       ></div>
     </div>
-    <div v-else class="schedule-grid-row flex-nowrap">
+    <div v-else class="grid-row flex-nowrap">
       <div
-        class="schedule-team-grid-col cell-day"
+        class="grid-col cell-day"
         v-for="n in countDays"
         :key="n"
       ></div>
@@ -30,7 +30,7 @@
 </template>
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
-import { Schedule,  ScaleTypes, Month } from "../types/types";
+import { Schedule,  ScaleTypes, Month } from "../../types/types";
 import moment from "moment";
 import "moment/locale/ru";
 
@@ -61,20 +61,18 @@ export default class Grid extends Vue {
 }
 </script>
 <style scoped>
-.schedule-team-grid-col {
+.grid-col {
   height: 48px;
   border-bottom: 1px dashed lightgray;
   border-right: 1px solid lightgray;
   background-color: white;
 }
-.schedule-team-grid-col.cell-month {
-}
-.schedule-team-grid-col.cell-day {
+.grid-col.cell-day {
   width: 30px;
   min-width: 30px;
 }
 
-.schedule-grid-row {
+.grid-row {
   display: flex;
   flex-wrap: wrap;
   flex: 1 1 auto;

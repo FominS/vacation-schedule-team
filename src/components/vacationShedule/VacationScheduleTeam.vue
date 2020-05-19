@@ -1,7 +1,7 @@
 <template>
   <div
     class="schedule-team ma-2"
-    style="height: calc( 100% - 16px)"
+    style="height: calc( 100% - 20px)"
     v-resize="resizeComponent"
   >
     <div
@@ -60,11 +60,23 @@
             :showChild="leader.isOpen"
             :year="year"
           ></grid>
+          <div class="schedule-team-vacations-leader">
+            <vacation-period  
+              v-model="leader.data"
+              :mode="scaleType"
+              :year="year"
+              :month="month"
+              :showChild="leader.isOpen"
+              :employes="leader.employes"
+              @change-month="changeMonth"
+              @year-mode="yearMode"
+            ></vacation-period>
+          </div>
         </div>
       </div>
       <div class="schedule-team-row flex-nowrap">
         <div class="schedule-team-panel-left" :style="{ left: scrollLeft }">
-          <div v-for="item in employees" :key="item.data.id">
+          <div v-for="item in employes" :key="item.data.id">
             <employee-item
               v-model="item.data"
               :employes="item.employes"
@@ -76,7 +88,7 @@
         </div>
         <div class="schedule-team-master" ref="master">
           <grid
-            v-for="item in employees"
+            v-for="item in employes"
             :key="item.data.id"
             :scale="scaleType"
             :month="month"
@@ -86,13 +98,16 @@
           ></grid>
           <div class="schedule-team-vacations">
             <vacation-period 
-              v-for="item in employees" 
+              v-for="item in employes" 
               :key="item.data.id"
-              v-model="item.data.periods"
+              v-model="item.data"
               :mode="scaleType"
               :year="year"
               :month="month"
+              :showChild="item.isOpen"
+              :employes="item.employes"
               @change-month="changeMonth"
+              @year-mode="yearMode"
             ></vacation-period>
           </div>
         </div>
@@ -103,9 +118,7 @@
 </template>
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
-import moment from "moment";
-import "moment/locale/ru";
-import { Schedule, ScaleTypes, Month } from "../types/types";
+import { Schedule, ScaleTypes, Month } from "../../types/types";
 import Scale from "./Scale.vue";
 import Corner from "./Corner.vue";
 import Grid from "./Grid.vue";
@@ -126,11 +139,8 @@ export default class VacationScheduleTeam extends Vue {
   @Prop({ required: true }) readonly year!: number;
 
   private scaleType: string = ScaleTypes[0];
-  private scrollLeftNegative = "0px";
   private scrollTop = "0px";
   private scrollLeft = "0px";
-  private scrollHeight = "0px";
-  private scrollWidth = "0px";
   private containerHeight = "auto";
   private months: Array<Month> = [];
   scales: Array<string> = ["months", "days"];
@@ -149,14 +159,11 @@ export default class VacationScheduleTeam extends Vue {
   get leader(): Schedule {
     return this.value[0];
   }
-  get employees(): Array<Schedule> {
+  get employes(): Array<Schedule> {
     return this.value.slice(1, this.value.length);
   }
 
   /* methods */
-  public moment(): moment.Moment {
-    return moment();
-  }
   public nextMonth(): void {
     this.monthIndex++;
   }
@@ -176,8 +183,6 @@ export default class VacationScheduleTeam extends Vue {
   public handleScroll(event: UIEvent): void {
     if (event && event.target) {
       this.scrollLeft = (event.target as HTMLElement).scrollLeft + "px";
-      this.scrollLeftNegative =
-        -(event.target as HTMLElement).scrollLeft + "px";
       this.scrollTop = (event.target as HTMLElement).scrollTop + "px";
     }
     event;
@@ -198,6 +203,7 @@ export default class VacationScheduleTeam extends Vue {
   }
 }
 </script>
+
 <style>
 html,
 body,
@@ -229,10 +235,17 @@ body,
   top: 0px;
   left: 0px;
 }
+.schedule-team-vacations-leader {
+  position: absolute;
+  top: 45px;
+  left: 0px;
+}
 
 .schedule-team-corner {
   top: 0px;
   z-index: 4;
+  width: 300px;
+  min-width: 300px;
 }
 .schedule-team-panel-top {
   z-index: 3;

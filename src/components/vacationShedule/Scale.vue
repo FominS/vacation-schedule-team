@@ -6,7 +6,7 @@
       class="schedule-team-row flex-nowrap"
     >
       <div
-        class="schedule-team-scale schedule-team-scale-month text-md-center white--text pa-3 subtitle-2"
+        class="scale scale-month text-md-center white--text pa-3 subtitle-2"
         :style="{ minWidth: month.width }"
         v-for="month in months"
         :key="month.index"
@@ -17,7 +17,7 @@
     </div>
     <div v-else class="schedule-team-row flex-nowrap" align="center">
       <div
-        class="schedule-team-scale schedule-team-scale-day text-md-center white--text py-3 subtitle-2"
+        class="scale scale-day text-md-center white--text py-3 subtitle-2"
         v-for="n in countDays"
         :key="n"
       >
@@ -28,7 +28,7 @@
 </template>
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
-import { ScaleTypes, Month } from "../types/types";
+import { ScaleTypes, Month } from "../../types/types";
 
 @Component
 export default class Scale extends Vue {
@@ -59,19 +59,19 @@ export default class Scale extends Vue {
 </script>
 
 <style scoped>
-.schedule-team-scale {
+.scale {
   background-color: #0088b2;
   height: 45px;
   border-bottom: 1px solid lightgray;
   border-right: 1px solid lightgray;
 }
-.schedule-team-scale-month {
+.scale-month {
   cursor: pointer;
 }
-.schedule-team-scale-month:hover {
+.scale-month:hover {
   background-color: #00ACC1;
 }
-.schedule-team-scale-day {
+.scale-day {
   width: 30px;
   min-width: 30px;
 }
