@@ -62,7 +62,7 @@ export default class Grid extends Vue {
 </script>
 <style scoped>
 .grid-col {
-  height: 48px;
+  height: 58px;
   border-bottom: 1px dashed lightgray;
   border-right: 1px solid lightgray;
   background-color: white;

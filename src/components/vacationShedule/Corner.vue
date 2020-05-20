@@ -48,14 +48,13 @@ export default class Corner extends Vue {
 </script>
 <style scoped>
 .scale {
-  background-color: #0088b2;
+  background-color: rgb(54, 59, 73);
+  border-radius: 5px;
   height: 45px;
   border-bottom: 1px solid lightgray;
   border-right: 1px solid lightgray;
 }
 .scale-tree {
-  width: 300px;
-  min-width: 300px;
   align-items: center;
   display: flex;
   justify-content: space-between;

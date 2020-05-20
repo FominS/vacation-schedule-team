@@ -11,7 +11,7 @@ const schedule: Schedule[] = [
       surname: "Фокин",
       firstname: "Александр",
       middlename: "Николаевич",
-      periods: [new Period("2020-03-02", "2020-03-18"), new Period("2020-06-01", "2020-06-20"), new Period("2020-08-25", "2020-09-18")],
+      periods: [new Period("2020-03-02", "2020-03-18"), new Period("2020-06-01", "2020-06-20"), new Period("2020-08-25", "2020-09-18"), new Period("2020-10-25", "2020-10-25")],
       position: "Начальник отдела ОРПР РЦР Рязань",
       leader: true
     },
@@ -128,7 +128,21 @@ const schedule: Schedule[] = [
                       position: "Вождь краснокожих",
                       leader: false
                     },
-                    employes: []
+                    employes: [
+                      {
+                        isOpen: true, 
+                        data: {
+                          id: uuid(),
+                          surname: "Тринидад Руиз и Пикассо",
+                          firstname: "Пабло Диего Хозе Франциско де Паула",
+                          middlename: "Хуан Непомукено Криспин Криспиано де ла Сантисима",
+                          periods: [new Period("2020-06-05", "2020-07-20"), new Period("2020-08-01", "2020-08-19")],
+                          position: "Великий художник и просто человек с длинным именем и отчеством, который поможет протестировать отображение",
+                          leader: false
+                        },
+                        employes: []
+                      }
+                    ]
                   }
                 ]
               }

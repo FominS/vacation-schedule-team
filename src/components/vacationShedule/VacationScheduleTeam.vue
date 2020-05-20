@@ -244,15 +244,15 @@ body,
 .schedule-team-corner {
   top: 0px;
   z-index: 4;
-  width: 300px;
-  min-width: 300px;
+  width: 250px;
+  min-width: 250px;
 }
 .schedule-team-panel-top {
   z-index: 3;
 }
 .schedule-team-panel-left {
-  width: 300px;
-  min-width: 300px;
+  width: 250px;
+  min-width: 250px;
   z-index: 3;
 }
 

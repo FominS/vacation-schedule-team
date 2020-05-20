@@ -3,10 +3,11 @@
     <div
       v-if="value == scaleType[0]"
       align="center"
-      class="schedule-team-row flex-nowrap"
+      class="schedule-team-row flex-nowrap scale-container"
     >
       <div
         class="scale scale-month text-md-center white--text pa-3 subtitle-2"
+        :class="month.index == 0 ? 'scale-border-left' : month.index == 11 ? 'scale-border-right' : ''"
         :style="{ minWidth: month.width }"
         v-for="month in months"
         :key="month.index"
@@ -59,9 +60,12 @@ export default class Scale extends Vue {
 </script>
 
 <style scoped>
+.scale-container{
+  border-radius: 5px;
+}
 .scale {
-  background-color: #0088b2;
   height: 45px;
+  background-color: rgb(54, 59, 73);
   border-bottom: 1px solid lightgray;
   border-right: 1px solid lightgray;
 }
@@ -69,11 +73,19 @@ export default class Scale extends Vue {
   cursor: pointer;
 }
 .scale-month:hover {
-  background-color: #00ACC1;
+  background-color: #5a5d69;
 }
 .scale-day {
   width: 30px;
   min-width: 30px;
+}
+.scale-border-left{
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+.scale-border-right{
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
 }
 
 .schedule-team-row {

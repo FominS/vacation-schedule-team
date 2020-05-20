@@ -99,6 +99,7 @@ export default class VacationPeriod extends Vue {
     this.value.periods.forEach((element: Period) => {
       const startDate: moment.Moment = moment(element.start);
       const endDate: moment.Moment = moment(element.end);
+      const oneDay = element.start == element.end;
       let startView = startDate;
       let endView = endDate;
       let changeStart = false;
@@ -123,7 +124,6 @@ export default class VacationPeriod extends Vue {
       }
       const duration = endDate.diff(startDate, "days") + 1;
       const durationView = endView.diff(startView, "days") + 1;
-
       result.push({
         start: element.start,
         end: element.end,
@@ -141,10 +141,9 @@ export default class VacationPeriod extends Vue {
           borderBottomRightRadius: changeEnd ? null : radius,
           borderTopRightRadius: changeEnd ? null : radius,
         },
-        title: startDate.format("DD.MM") + " - " + endDate.format("DD.MM"),
-        fullTitle: `${startDate.format("DD.MM.YYYY")} - ${endDate.format(
-          "DD.MM.YYYY"
-        )}\n${duration} ${declOfNum(duration, ["день", "дня", "дней"])}`
+        title: startDate.format("DD.MM") + (!oneDay ? " - " + endDate.format("DD.MM"): ''),
+        fullTitle: startDate.format("DD.MM.YYYY") + (!oneDay ? ' - ' + endDate.format("DD.MM.YYYY"): '') + 
+          `\n${duration} ${declOfNum(duration, ["день", "дня", "дней"])}`
       } as PeriodData);
     });
     return result;
@@ -166,7 +165,7 @@ export default class VacationPeriod extends Vue {
 </script>
 <style scoped>
 .period-container {
-  height: 48px;
+  height: 58px;
   display: flex;
   flex: 1 1 auto;
   position: relative;
@@ -176,7 +175,7 @@ export default class VacationPeriod extends Vue {
   background-color: #5190bd;
   color: white;
   width: 100%;
-  height: 40px;
+  height: 50px;
   position: absolute;
   line-height: 10px !important;
   overflow: hidden;

@@ -13,15 +13,15 @@
           </v-btn>
         </v-list-item-icon>
         <v-list-item-content class="py-0">
+          <v-list-item-title  
+            :title="value.surname + ' ' + value.firstname + ' ' + value.middlename"
+            >{{ value.surname }} {{ value.firstname }}</v-list-item-title
+          >
           <v-list-item-title
-            :title="
-              value.surname + ' ' + value.firstname + ' ' + value.middlename
-            "
-            >{{ value.surname }} {{ value.firstname }}
-            {{ value.middlename }}</v-list-item-title
+            >{{ value.middlename }}</v-list-item-title
           >
           <v-list-item-subtitle :title="value.position">{{
-            value.position
+            position
           }}</v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
@@ -54,7 +54,28 @@ export default class EmployeeItem extends Vue {
 
   /* computed */
   get levelIdent(): object {
-    return { "margin-left": `${Number(this.level) * 20}px` };
+    return { "margin-left": `${Number(this.level) * 10}px` };
+  }
+  get position(): string{
+    const lineLength = 25;
+    if (this.value.position.length > lineLength){
+      const split = this.value.position.split(' ');
+      let result = '';
+      split.forEach((el: string) => {
+        if (result.length >= lineLength || result.indexOf('...') != -1){
+          return;
+        }
+        let plus = result;
+        plus += el + ' ';
+        if ( plus.length >= lineLength) {
+          result += '...';
+          return;
+        }
+        result = plus;
+      });
+      return result;
+    }
+    return this.value.position;
   }
 
   /* methods */
@@ -66,10 +87,14 @@ export default class EmployeeItem extends Vue {
 
 <style scoped>
 .employee {
-  height: 48px;
+  height: 58px;
   border-bottom: 1px dashed lightgray;
   border-right: 1px solid lightgray;
   background-color: white;
   cursor: default;
+}
+
+.v-list-item__subtitle{
+  text-overflow: unset;
 }
 </style>
