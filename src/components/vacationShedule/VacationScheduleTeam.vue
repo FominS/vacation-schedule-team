@@ -1,7 +1,7 @@
 <template>
   <div
     class="schedule-team ma-2"
-    style="height: calc( 100% - 20px)"
+    style="height: calc( 100% - 20px);"
     v-resize="resizeComponent"
   >
     <div
@@ -20,14 +20,15 @@
           </v-list-item>
         </v-list>
       </v-menu>
-    </div>
+    </div>    
     <div
       class="schedule-team-container"
       v-on:scroll="handleScroll"
       ref="container"
-      :style="{ height: containerHeight }"
+      :style="{ height: containerHeight, width: containerWidth }"
     >
-      <div class="schedule-team-row flex-nowrap">
+      <div class="schedule-team-row flex-nowrap schedule-team-top"
+        :style="{ }">
         <div
           class="schedule-team-corner"
           :style="{ top: scrollTop, left: scrollLeft }"
@@ -74,7 +75,7 @@
           </div>
         </div>
       </div>
-      <div class="schedule-team-row flex-nowrap">
+      <div class="schedule-team-row flex-nowrap schedule-team-grid">
         <div class="schedule-team-panel-left" :style="{ left: scrollLeft }">
           <div v-for="item in employes" :key="item.data.id">
             <employee-item
@@ -110,10 +111,15 @@
               @year-mode="yearMode"
             ></vacation-period>
           </div>
-        </div>
-        
+        </div>        
       </div>
     </div>
+    <div class="schedule-team-horizontal-scroll" :style="{ left: containerWidth != 'auto' ? containerWidth : scrollWidth }">
+      <div class="horizontal-scroll" :style="{ height: scrollHeight }"></div>
+    </div>
+    <div class="schedule-team-vertical-scroll">
+      <div class="vertical-scroll" :style="{ width: scrollWidth }"></div>
+    </div>    
   </div>
 </template>
 <script lang="ts">
@@ -142,7 +148,10 @@ export default class VacationScheduleTeam extends Vue {
   private scrollTop = "0px";
   private scrollLeft = "0px";
   private containerHeight = "auto";
+  private containerWidth = "auto";
   private months: Array<Month> = [];
+  scrollHeight = '0px';
+  scrollWidth = '0px';
   scales: Array<string> = ["months", "days"];
   monthIndex = 0;
 
@@ -150,6 +159,12 @@ export default class VacationScheduleTeam extends Vue {
     for (let i = 0; i < 12; i++) {
       this.months.push(new Month(this.year, i));
     }
+  }
+
+  mounted() {
+    const master: HTMLElement = this.$refs.master as HTMLElement;
+    this.scrollHeight = master.offsetHeight + 'px';
+    this.scrollWidth = master.offsetWidth + 250 + 'px';
   }
 
   /* computed */
@@ -192,12 +207,19 @@ export default class VacationScheduleTeam extends Vue {
     const master: HTMLElement = this.$refs.master as HTMLElement;
     const component: HTMLElement = this.$el as HTMLElement;
     const offsetHeightFromTop = 140;
-    const offsetBtnPanel = 30;
+    const offsetWidthFromLeft = 250;
+    const offsetBtnPanel = 52;
+    const offsetScroll = 15;
     if (master && component) {
       if (master.offsetHeight + offsetHeightFromTop > component.offsetHeight) {
         this.containerHeight = component.offsetHeight - offsetBtnPanel + "px";
       } else {
         this.containerHeight = "auto";
+      }
+      if (master.offsetWidth + offsetWidthFromLeft > component.offsetWidth) {
+        this.containerWidth = component.offsetWidth - offsetScroll + "px";
+      } else {
+        this.containerWidth = "auto";
       }
     }
   }
@@ -215,20 +237,27 @@ body,
 
 <style scoped>
 .schedule-team,
-.schedule-team-master,
+.schedule-team-grid,
 .schedule-team-corner,
-.schedule-team-panel-top,
 .schedule-team-panel-left {
   position: relative;
 }
+
+.schedule-team-panel-top,
+.schedule-team-master{
+  position: absolute;
+}
+.schedule-team-top{
+  position: relative;
+}
 .schedule-team-container {
-  width: 100%;
+  width: calc( 100% - 16px );
   background-color: lightgray;
-  overflow-x: auto;
-  overflow-y: auto;
+  overflow-x: hidden;
+  overflow-y: hidden;
 }
 .schedule-team-master {
-  width: 100%;
+  left: 250px;
 }
 .schedule-team-vacations {
   position: absolute;
@@ -249,6 +278,7 @@ body,
 }
 .schedule-team-panel-top {
   z-index: 3;
+  left: 250px;
 }
 .schedule-team-panel-left {
   width: 250px;
@@ -260,6 +290,32 @@ body,
   display: flex;
   flex: 1 1 auto;
 }
+
+.schedule-team-horizontal-scroll {
+  position: absolute;
+  top: 36px;
+  right: 0px;
+  height: calc( 100% - 36px );
+  width: 15px;
+  z-index: 10;
+  overflow-y: auto;
+}
+.schedule-team-vertical-scroll {
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  height: 15px;
+  width: 100%;
+  z-index: 10;
+  overflow-x: auto;
+}
+.schedule-team-vertical-scroll > div{
+  height: 1px;
+}
+.schedule-team-horizontal-scroll > div{
+  width: 1px;
+}
+
 
 .v-input--selection-controls {
   margin-top: 0px;
