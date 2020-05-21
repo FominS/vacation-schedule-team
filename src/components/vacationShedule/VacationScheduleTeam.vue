@@ -3,6 +3,7 @@
     class="schedule-team ma-2"
     style="height: calc( 100% - 20px);"
     v-resize="resizeComponent"
+    v-on:wheel="handleWheel"
   >
     <div
       class="schedule-team-row flex-nowrap my-2">
@@ -23,7 +24,6 @@
     </div>    
     <div
       class="schedule-team-container"
-      v-on:scroll="handleScroll"
       ref="container"
       :style="{ height: containerHeight, width: containerWidth }"
     >
@@ -31,7 +31,6 @@
         :style="{ }">
         <div
           class="schedule-team-corner"
-          :style="{ top: scrollTop, left: scrollLeft }"
         >
           <corner
             v-model="scaleType"
@@ -47,7 +46,7 @@
             @toggle-child="leader.isOpen = !leader.isOpen"
           />
         </div>
-        <div class="schedule-team-panel-top" :style="{ top: scrollTop }">
+        <div class="schedule-team-panel-top" :style="{ left: scrollLeft }">
           <scale
             v-model="scaleType"
             :month="month"
@@ -75,8 +74,8 @@
           </div>
         </div>
       </div>
-      <div class="schedule-team-row flex-nowrap schedule-team-grid">
-        <div class="schedule-team-panel-left" :style="{ left: scrollLeft }">
+      <div class="schedule-team-row flex-nowrap schedule-team-grid" :style="{ top: scrollTop }">
+        <div class="schedule-team-panel-left">
           <div v-for="item in employes" :key="item.data.id">
             <employee-item
               v-model="item.data"
@@ -87,7 +86,7 @@
             />
           </div>
         </div>
-        <div class="schedule-team-master" ref="master">
+        <div class="schedule-team-master" ref="master" :style="{ left: scrollLeft }">
           <grid
             v-for="item in employes"
             :key="item.data.id"
@@ -114,10 +113,15 @@
         </div>        
       </div>
     </div>
-    <div class="schedule-team-horizontal-scroll" :style="{ left: containerWidth != 'auto' ? containerWidth : scrollWidth }">
+    <div class="schedule-team-horizontal-scroll"  ref="horizontalScroll"
+      :style="{ left: containerWidth != 'auto' ? containerWidth : scrollWidth }"
+      v-on:scroll="handleHorizontalScroll"
+      >
       <div class="horizontal-scroll" :style="{ height: scrollHeight }"></div>
     </div>
-    <div class="schedule-team-vertical-scroll">
+    <div class="schedule-team-vertical-scroll" ref="verticalScroll"
+      v-on:scroll="handleVerticalScroll"
+      >
       <div class="vertical-scroll" :style="{ width: scrollWidth }"></div>
     </div>    
   </div>
@@ -146,7 +150,7 @@ export default class VacationScheduleTeam extends Vue {
 
   private scaleType: string = ScaleTypes[0];
   private scrollTop = "0px";
-  private scrollLeft = "0px";
+  private scrollLeft = "250px";
   private containerHeight = "auto";
   private containerWidth = "auto";
   private months: Array<Month> = [];
@@ -162,9 +166,7 @@ export default class VacationScheduleTeam extends Vue {
   }
 
   mounted() {
-    const master: HTMLElement = this.$refs.master as HTMLElement;
-    this.scrollHeight = master.offsetHeight + 'px';
-    this.scrollWidth = master.offsetWidth + 250 + 'px';
+    this.changeMasterWidth();
   }
 
   /* computed */
@@ -181,28 +183,43 @@ export default class VacationScheduleTeam extends Vue {
   /* methods */
   public nextMonth(): void {
     this.monthIndex++;
+    this.recountContainerSize();
   }
   public previousMonth(): void {
     this.monthIndex--;
+    this.recountContainerSize();
   }
 
   public changeMonth(index: number): void {
     this.monthIndex = index;
     this.scaleType = ScaleTypes[1];
+    this.recountContainerSize();   
   }
 
   public yearMode(): void {
     this.scaleType = ScaleTypes[0];
+    this.recountContainerSize();
   }
 
-  public handleScroll(event: UIEvent): void {
+  public handleHorizontalScroll(event: UIEvent): void {
     if (event && event.target) {
-      this.scrollLeft = (event.target as HTMLElement).scrollLeft + "px";
-      this.scrollTop = (event.target as HTMLElement).scrollTop + "px";
+       this.scrollTop = -((event.target as HTMLElement).scrollTop ) + "px";
     }
-    event;
   }
 
+  public handleVerticalScroll(event: UIEvent): void {
+    if (event && event.target) {
+       this.scrollLeft = -((event.target as HTMLElement).scrollLeft - 250 ) + "px";
+    }
+  }
+
+  public handleWheel(event: WheelEvent): void{
+    (this.$refs.horizontalScroll as HTMLElement).scrollTop += event.deltaY;
+  }
+
+  /**
+   * Пересчет габаритов контейнера при изменении компонента 
+   */
   public resizeComponent(): void {
     const master: HTMLElement = this.$refs.master as HTMLElement;
     const component: HTMLElement = this.$el as HTMLElement;
@@ -222,6 +239,25 @@ export default class VacationScheduleTeam extends Vue {
         this.containerWidth = "auto";
       }
     }
+  }
+
+  /**
+   * Пересчет длинны мастера
+   */
+  public changeMasterWidth(): void {
+    const master: HTMLElement = this.$refs.master as HTMLElement;
+    this.scrollHeight = master.offsetHeight + 100 + 'px';
+    this.scrollWidth = master.offsetWidth + 250 + 'px';
+  }
+
+  /**
+   * Пересчет размеров контейнера для правильного позиционирования скроллов 
+   */
+  public recountContainerSize(): void {
+    setTimeout(() => {
+      this.changeMasterWidth();
+      this.resizeComponent();
+    })
   }
 }
 </script>
@@ -257,7 +293,6 @@ body,
   overflow-y: hidden;
 }
 .schedule-team-master {
-  left: 250px;
 }
 .schedule-team-vacations {
   position: absolute;
@@ -278,7 +313,6 @@ body,
 }
 .schedule-team-panel-top {
   z-index: 3;
-  left: 250px;
 }
 .schedule-team-panel-left {
   width: 250px;
