@@ -43,7 +43,7 @@
             :employes="leader.employes"
             :level="0"
             :showChild="leader.isOpen"
-            @toggle-child="leader.isOpen = !leader.isOpen"
+            @toggle-child="toggleChild(leader)"
           />
         </div>
         <div class="schedule-team-panel-top" :style="{ left: scrollLeft }">
@@ -82,11 +82,11 @@
               :employes="item.employes"
               :level="0"
               :showChild="item.isOpen"
-              @toggle-child="item.isOpen = !item.isOpen"
+              @toggle-child="toggleChild(item)"
             />
           </div>
         </div>
-        <div class="schedule-team-master" ref="master" :style="{ left: scrollLeft }">
+        <div class="schedule-team-master" ref="master" :style="{ left: scrollLeft }" v-on:resize="recountContainerSize">
           <grid
             v-for="item in employes"
             :key="item.data.id"
@@ -217,6 +217,10 @@ export default class VacationScheduleTeam extends Vue {
     (this.$refs.horizontalScroll as HTMLElement).scrollTop += event.deltaY;
   }
 
+  public toggleChild(item: Schedule): void{
+    item.isOpen = !item.isOpen;
+  }
+
   /**
    * Пересчет габаритов контейнера при изменении компонента 
    */
@@ -254,11 +258,14 @@ export default class VacationScheduleTeam extends Vue {
    * Пересчет размеров контейнера для правильного позиционирования скроллов 
    */
   public recountContainerSize(): void {
+    console.log('recount')
     setTimeout(() => {
       this.changeMasterWidth();
       this.resizeComponent();
     })
   }
+
+  
 }
 </script>
 

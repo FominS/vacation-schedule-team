@@ -40,7 +40,7 @@
   </div>
 </template>
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
+import { Component, Prop, Emit, Vue } from "vue-property-decorator";
 import { Schedule, ScheduleModel } from "../../types/types";
 
 @Component({
@@ -82,6 +82,7 @@ export default class EmployeeItem extends Vue {
   public toggle(): void {
     this.$emit("toggle-child", !this.showChild);
   }
+
 }
 </script>
 
