@@ -3,8 +3,7 @@
     class="schedule-team ma-2"
     style="height: calc( 100% - 20px);"
     v-resize="resizeComponent"
-    v-on:wheel="handleWheel"
-  >
+  >  
     <div
       class="schedule-team-row flex-nowrap my-2">
       <v-btn color="primary" class="mr-2" rounded small @click="yearMode">На год</v-btn>
@@ -21,7 +20,8 @@
           </v-list-item>
         </v-list>
       </v-menu>
-    </div>    
+    </div>  
+  
     <div
       class="schedule-team-container"
       ref="container"
@@ -74,8 +74,8 @@
           </div>
         </div>
       </div>
-      <div class="schedule-team-row flex-nowrap schedule-team-grid" :style="{ top: scrollTop }">
-        <div class="schedule-team-panel-left">
+      <div class="schedule-team-row flex-nowrap schedule-team-grid">
+        <div class="schedule-team-panel-left" :style="{ top: scrollTop }">
           <div v-for="item in employes" :key="item.data.id">
             <employee-item
               v-model="item.data"
@@ -86,7 +86,8 @@
             />
           </div>
         </div>
-        <div class="schedule-team-master" ref="master" :style="{ left: scrollLeft }" v-on:resize="recountContainerSize">
+        <perfect-scrollbar :style="{ height: scrollHeight }" @ps-scroll-y="handleHorizontalScroll"  @ps-scroll-x="handleVerticalScroll">  
+        <div class="schedule-team-master" ref="master"  v-on:resize="recountContainerSize">
           <grid
             v-for="item in employes"
             :key="item.data.id"
@@ -110,20 +111,10 @@
               @year-mode="yearMode"
             ></vacation-period>
           </div>
-        </div>        
+        </div> 
+        </perfect-scrollbar>        
       </div>
     </div>
-    <div class="schedule-team-horizontal-scroll"  ref="horizontalScroll"
-      :style="{ left: containerWidth != 'auto' ? containerWidth : scrollWidth }"
-      v-on:scroll="handleHorizontalScroll"
-      >
-      <div class="horizontal-scroll" :style="{ height: scrollHeight }"></div>
-    </div>
-    <div class="schedule-team-vertical-scroll" ref="verticalScroll"
-      v-on:scroll="handleVerticalScroll"
-      >
-      <div class="vertical-scroll" :style="{ width: scrollWidth }"></div>
-    </div>    
   </div>
 </template>
 <script lang="ts">
@@ -134,6 +125,7 @@ import Corner from "./Corner.vue";
 import Grid from "./Grid.vue";
 import EmployeeItem from "./EmployeeItem.vue";
 import VacationPeriod from "./VacationPeriod.vue";
+import { PerfectScrollbar } from 'vue2-perfect-scrollbar'
 
 @Component({
   components: {
@@ -141,7 +133,8 @@ import VacationPeriod from "./VacationPeriod.vue";
     Corner,
     EmployeeItem,
     Grid,
-    VacationPeriod
+    VacationPeriod,
+    PerfectScrollbar
   },
 })
 export default class VacationScheduleTeam extends Vue {
@@ -154,8 +147,8 @@ export default class VacationScheduleTeam extends Vue {
   private containerHeight = "auto";
   private containerWidth = "auto";
   private months: Array<Month> = [];
-  scrollHeight = '0px';
-  scrollWidth = '0px';
+  scrollHeight = 'auto';
+  scrollWidth = 0;
   scales: Array<string> = ["months", "days"];
   monthIndex = 0;
 
@@ -163,10 +156,6 @@ export default class VacationScheduleTeam extends Vue {
     for (let i = 0; i < 12; i++) {
       this.months.push(new Month(this.year, i));
     }
-  }
-
-  mounted() {
-    this.changeMasterWidth();
   }
 
   /* computed */
@@ -229,16 +218,18 @@ export default class VacationScheduleTeam extends Vue {
     const component: HTMLElement = this.$el as HTMLElement;
     const offsetHeightFromTop = 140;
     const offsetWidthFromLeft = 250;
-    const offsetBtnPanel = 52;
-    const offsetScroll = 15;
+    const offsetBtnPanel = 36;
+    const offsetLeaderPanel = 103;
     if (master && component) {
       if (master.offsetHeight + offsetHeightFromTop > component.offsetHeight) {
         this.containerHeight = component.offsetHeight - offsetBtnPanel + "px";
+        this.scrollHeight = component.offsetHeight - offsetBtnPanel - offsetLeaderPanel + 'px';
       } else {
         this.containerHeight = "auto";
+        this.scrollHeight = 'auto';
       }
       if (master.offsetWidth + offsetWidthFromLeft > component.offsetWidth) {
-        this.containerWidth = component.offsetWidth - offsetScroll + "px";
+        this.containerWidth = component.offsetWidth + "px";
       } else {
         this.containerWidth = "auto";
       }
@@ -246,21 +237,11 @@ export default class VacationScheduleTeam extends Vue {
   }
 
   /**
-   * Пересчет длинны мастера
-   */
-  public changeMasterWidth(): void {
-    const master: HTMLElement = this.$refs.master as HTMLElement;
-    this.scrollHeight = master.offsetHeight + 100 + 'px';
-    this.scrollWidth = master.offsetWidth + 250 + 'px';
-  }
-
-  /**
    * Пересчет размеров контейнера для правильного позиционирования скроллов 
    */
   public recountContainerSize(): void {
-    console.log('recount')
+    /* Без таймаута, к сожалению, здесь худо */
     setTimeout(() => {
-      this.changeMasterWidth();
       this.resizeComponent();
     })
   }
@@ -275,6 +256,9 @@ body,
 .v-application,
 .v-content {
   height: 100%;
+}
+.ps {
+  width: 100%;
 }
 </style>
 
@@ -298,8 +282,6 @@ body,
   background-color: lightgray;
   overflow-x: hidden;
   overflow-y: hidden;
-}
-.schedule-team-master {
 }
 .schedule-team-vacations {
   position: absolute;
@@ -331,32 +313,6 @@ body,
   display: flex;
   flex: 1 1 auto;
 }
-
-.schedule-team-horizontal-scroll {
-  position: absolute;
-  top: 36px;
-  right: 0px;
-  height: calc( 100% - 36px );
-  width: 15px;
-  z-index: 10;
-  overflow-y: auto;
-}
-.schedule-team-vertical-scroll {
-  position: absolute;
-  bottom: 0px;
-  left: 0px;
-  height: 15px;
-  width: 100%;
-  z-index: 10;
-  overflow-x: auto;
-}
-.schedule-team-vertical-scroll > div{
-  height: 1px;
-}
-.schedule-team-horizontal-scroll > div{
-  width: 1px;
-}
-
 
 .v-input--selection-controls {
   margin-top: 0px;
